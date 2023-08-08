@@ -124,7 +124,7 @@ find_package (CUDAToolkit)
 find_package (LAPACK REQUIRED)
 find_package (METIS 5.0)
 find_package (OpenMP COMPONENTS C)
-find_package (TBB 4.2...<2021.4 NO_MODULE)
+find_package (TBB 4.2...<2021.10 NO_MODULE)
 
 function (check_options)
   foreach (_OPT ${ARGV})
@@ -718,7 +718,7 @@ if (WITH_CHOLMOD)
 
     add_custom_command (
       OUTPUT ${_METIS_OUT}
-      COMMAND ${CMAKE_COMMAND} -E create_symlink ${_METIS_IN} ${_METIS_OUT}
+      COMMAND ${CMAKE_COMMAND} -E copy ${_METIS_IN} ${_METIS_OUT}
       DEPENDS ${_METIS_IN}
       COMMENT "Creating FindMETIS.cmake symlink in build directory"
     )
@@ -857,7 +857,7 @@ if (WITH_SUPERNODAL)
       SPQR/SPQRGPU/spqrgpu_kernel.cpp
     )
 
-    target_link_libraries (spqr PRIVATE SuiteSparse::GPURuntime)
+    target_link_libraries (spqr PRIVATE SuiteSparse::GPURuntime CUDA::cudart)
   endif (WITH_CUDA AND CMAKE_CUDA_COMPILER_LOADED)
 
   if (TBB_FOUND)
@@ -1277,6 +1277,7 @@ if (WITH_CUDA AND CMAKE_CUDA_COMPILER_LOADED)
     PUBLIC SuiteSparse::Config
     PRIVATE CUDA::cudart
   )
+  target_compile_definitions (gpuruntime PRIVATE gpuruntime_EXPORTS)
 
   # GPUQREngine
 
