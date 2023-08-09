@@ -1769,16 +1769,16 @@ if (BUILD_CXSPARSE)
   add_subdirectory (CXSparse)
 endif (BUILD_CXSPARSE)
 
-if (MSVC)
-  foreach (bin IN LISTS SuiteSparse_BIN_TARGETS)
-    install (CODE
-"
-include (BundleUtilities)
-fixup_bundle (\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}/${bin}${CMAKE_EXECUTABLE_SUFFIX} \"\" \"\")
-"
-      COMPONENT Runtime)
-  endforeach (bin)
-endif (MSVC)
+# if (MSVC)
+#   foreach (bin IN LISTS SuiteSparse_BIN_TARGETS)
+#     install (CODE
+# "
+# include (BundleUtilities)
+# fixup_bundle (\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}/${bin}${CMAKE_EXECUTABLE_SUFFIX} \"\" \"\")
+# "
+#       COMPONENT Runtime)
+#   endforeach (bin)
+# endif (MSVC)
 
 add_feature_info (CUDA WITH_CUDA "GPU accelerated CHOLMOD using CUDA")
 add_feature_info (GPL WITH_GPL "GNU GPL modules")
